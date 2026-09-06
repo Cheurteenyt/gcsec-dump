@@ -32,7 +32,7 @@ CXXFLAGS := $(CFLAGS) -std=gnu++17 -fno-rtti -fno-exceptions
 ASFLAGS  := -g $(ARCH)
 LDFLAGS  = -specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS     := -lmbedtls -lmbedcrypto -lnx
+LIBS     := -lnx
 
 LIBDIRS  := $(PORTLIBS) $(LIBNX)
 

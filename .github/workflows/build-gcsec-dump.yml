@@ -9,20 +9,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    container:
+      image: devkitpro/devkita64
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install devkitPro pacman
-        run: |
-          curl -sL https://apt.devkitpro.org/install-devkitpro-pacman | bash
-          echo "DEVKITPRO=/opt/devkitpro" >> "$GITHUB_ENV"
-          echo "DEVKITA64=/opt/devkitpro/devkitA64" >> "$GITHUB_ENV"
-          echo "PATH=/opt/devkitpro/bin:/opt/devkitpro/devkitA64/bin:$PATH" >> "$GITHUB_ENV"
-
-      - name: Install toolchain
-        run: |
-          sudo dkp-pacman -Sy --noconfirm devkitA64 libnx switch-mbedtls
 
       - name: Build
         run: make
@@ -32,3 +25,4 @@ jobs:
         with:
           name: gcsec-dump-nro
           path: gcsec-dump.nro
+          if-no-files-found: error

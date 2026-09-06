@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
-#include <mbedtls/sha256.h>
+#include "sha256.h"
 
 #define HASH_LEN      32
 #define BLOCK_LEN     0x200
@@ -67,22 +67,6 @@ static bool load_config(void) {
     snprintf(g_out_name, sizeof(g_out_name), "sdmc:/gcsec-dump/initial_data.bin");
     snprintf(g_ctx_name, sizeof(g_ctx_name), "sdmc:/gcsec-dump/context.bin");
     return true;
-}
-
-// scanne un buffer à la recherche de la signature + vérifie le hash de la
-// fenêtre 0x200. Retourne l'offset du match (ou -1).
-static long scan_buffer(const u8 *buf, size_t len, const u8 *hash_out) {
-    if (len < BLOCK_LEN) return -1;
-    for (size_t i = 0; i + BLOCK_LEN <= len; i++) {
-        if (memcmp(buf + i, g_sig, SIG_LEN) != 0) continue;
-        u8 calc[HASH_LEN];
-        mbedtls_sha256(buf + i, BLOCK_LEN, calc, 0);
-        if (memcmp(calc, g_expected_hash, HASH_LEN) == 0) {
-            if (hash_out) memcpy(hash_out, calc, HASH_LEN);
-            return (long)i;
-        }
-    }
-    return -1;
 }
 
 // vérifie (sans lecture) que la fenêtre est plausible: reserved = zéros
@@ -185,7 +169,7 @@ int main(int argc, char **argv) {
                     for (size_t j = 0; j + BLOCK_LEN <= buf_len; j++) {
                         if (memcmp(chunk + j, g_sig, SIG_LEN) != 0) continue;
                         u8 calc[HASH_LEN];
-                        mbedtls_sha256_ret(chunk + j, BLOCK_LEN, calc, 0);
+                        sha256_calc(chunk + j, BLOCK_LEN, calc);
                         if (memcmp(calc, g_expected_hash, HASH_LEN) != 0) continue;
                         // ✓ signature + hash: l'artefact est trouvé
                         const u8 *win = chunk + j;
