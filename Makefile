@@ -46,6 +46,15 @@ export VPATH    := $(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
                    $(foreach dir,$(ROMFS),$(CURDIR)/$(dir))
 export DEPSDIR  := $(CURDIR)/$(BUILD)
 
+# exports toolchain (sinon le linker hote x86 est utilise — bug corrigé)
+export CC   := $(DEVKITA64)/bin/aarch64-none-elf-gcc
+export CXX  := $(DEVKITA64)/bin/aarch64-none-elf-g++
+export AS   := $(DEVKITA64)/bin/aarch64-none-elf-as
+export AR   := $(DEVKITA64)/bin/aarch64-none-elf-ar
+export OBJCOPY := $(DEVKITA64)/bin/aarch64-none-elf-objcopy
+export OBJDUMP := $(DEVKITA64)/bin/aarch64-none-elf-objdump
+export LD   := $(CC)
+
 CFILES   := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 BINFILES := $(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))

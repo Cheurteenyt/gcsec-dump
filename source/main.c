@@ -173,7 +173,7 @@ int main(int argc, char **argv) {
                         if (memcmp(calc, g_expected_hash, HASH_LEN) != 0) continue;
                         // ✓ signature + hash: l'artefact est trouvé
                         const u8 *win = chunk + j;
-                        printf("\n✓ SIGNATURE TROUVÉE (pid %lu, prog %016lx, "
+                        printf("\n✓ SIGNATURE TROUVÉE (pid %lu, prog %016llx, "
                                "addr %016llx)\n",
                                (unsigned long)pids[i],
                                (unsigned long long)prog_id,
