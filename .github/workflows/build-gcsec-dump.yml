@@ -3,7 +3,7 @@ name: Build gcsec-dump (.nro)
 on:
   workflow_dispatch:
   push:
-      branches:
+    branches:
       - main
 
 jobs:
@@ -13,17 +13,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install devkitPro toolchain
-        uses: devkitPro/install-toolchain-action@main
-        with:
-          toolchain: devkitA64 libnx mbedtls
+      - name: Install devkitPro pacman
+        run: |
+          curl -sL https://apt.devkitpro.org/install-devkitpro-pacman | bash
+          echo "DEVKITPRO=/opt/devkitpro" >> "$GITHUB_ENV"
+          echo "DEVKITA64=/opt/devkitpro/devkitA64" >> "$GITHUB_ENV"
+          echo "PATH=/opt/devkitpro/bin:/opt/devkitpro/devkitA64/bin:$PATH" >> "$GITHUB_ENV"
+
+      - name: Install toolchain
+        run: |
+          sudo dkp-pacman -Sy --noconfirm devkitA64 libnx switch-mbedtls
 
       - name: Build
-        working-directory: .
-        run: |
-          export DEVKITPRO=/opt/devkitpro
-          export PATH=$DEVKITPRO/bin:$PATH
-          make
+        run: make
 
       - name: Upload .nro artifact
         uses: actions/upload-artifact@v4
