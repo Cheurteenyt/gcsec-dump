@@ -5,6 +5,8 @@ ifeq ($(strip $(DEVKITPRO)),)
 $(error "Please set DEVKITPRO in your environment. export DEVKITPRO=/opt/devkitpro")
 endif
 
+export DEVKITA64 := $(DEVKITPRO)/devkitA64
+
 TOPDIR ?= $(realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 include $(DEVKITPRO)/libnx/switch_rules
