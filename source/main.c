@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
             MemoryInfo mi;
             u32 pi = 0;
             if (R_FAILED(svcQueryDebugProcessMemory(&mi, &pi, dbg, addr))) break;
-            if ((mi.perm & MemPerm_Read) && mi.size > 0 &&
+            if ((mi.perm & Perm_R) && mi.size > 0 &&
                 mi.size < 0x100000000ULL) {
                 u64 r_pos = mi.addr;
                 u64 r_end = mi.addr + mi.size;
