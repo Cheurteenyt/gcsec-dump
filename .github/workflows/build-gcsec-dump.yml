@@ -3,8 +3,8 @@ name: Build gcsec-dump (.nro)
 on:
   workflow_dispatch:
   push:
-    paths:
-      - "scene/gcsec-dump/**"
+      branches:
+      - main
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
           toolchain: devkitA64 libnx mbedtls
 
       - name: Build
-        working-directory: scene/gcsec-dump
+        working-directory: .
         run: |
           export DEVKITPRO=/opt/devkitpro
           export PATH=$DEVKITPRO/bin:$PATH
@@ -29,4 +29,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: gcsec-dump-nro
-          path: scene/gcsec-dump/gcsec-dump.nro
+          path: gcsec-dump.nro
