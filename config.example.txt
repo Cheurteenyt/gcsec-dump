@@ -1,0 +1,5 @@
+# À générer depuis le header de VOTRE XCI (valeurs d'exemple — placeholders)
+# ligne 1: initial_data_hash — header XCI @0x160 (32 octets, 64 hex)
+# ligne 2: package_id — header XCI @0x110 (8 octets, 16 hex)
+<initial_data_hash_64_hex>
+<package_id_16_hex>
