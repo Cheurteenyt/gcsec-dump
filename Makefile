@@ -15,7 +15,7 @@ include $(DEVKITPRO)/libnx/switch_rules
 APP_TITLE   := gcsec-dump
 APP_AUTHOR  := metroid-pipeline
 APP_VERSION := 1.0.0
-ICON        := icon.png
+# ICON := icon.png  (absent: le .nro utilise l'icône par défaut)
 
 TARGET   := $(notdir $(CURDIR))
 BUILD    := build
